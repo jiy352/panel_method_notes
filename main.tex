@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\title{panel method notes}
+\author{Jiayao Yan}
+\date{November 2023}
+
+\begin{document}
+
+\maketitle
+
+\section{
+Source influenced potential computation
+}
+
+Source influenced potentials
+
+\begin{equation}
+\begin{aligned}
+    \Phi_{\text{source}} = -\frac{1}{4\pi} \sum_{\text{panel edges}} \Bigg\{ &
+        \frac{(x - x_a)(y_b - y_a) - (y - y_a)(x_b - x_a)}{d_{ab}} 
+        \log \left( 
+            \frac{r_a + r_b + d_{ab}}{r_a + r_b - d_{ab}} 
+        \right) \\
+    & - z \colorbox{yellow}{$\displaystyle \left[ 
+        \tan^{-1}\left( \frac{m_{ab}e_a - h_a}{zr_a} \right) 
+        - \tan^{-1}\left( \frac{m_{ab}e_b - h_b}{zr_b} \right) 
+    \right]$} \Bigg\}
+\end{aligned}
+\end{equation}
+
+Source terms
+
+Doublet influenced potentials
+
+\begin{equation}
+    \Phi_{\text{doublet}} = \frac{1}{4\pi} \sum_{\text{panel edges}} \left[ \colorbox{yellow}{$\displaystyle \tan^{-1}\left( \frac{m_{ab}e_a - h_a}{zr_a} \right) - \tan^{-1}\left( \frac{m_{ab}e_b - h_b}{zr_b} \right)$} \right]
+\end{equation}
+
+Thus
+
+\[
+\Phi_{\text{source}} = -\frac{1}{4\pi} \sum \text{sources} \ \text{terms (not highlighted)} + z \Phi_{\text{doublet}} 
+\]
+
+Notes:
+
+1. We combine the two $\tan^{-1}$ to avoid numerical issues and use the half-angle rule to change from $\text{atan2}$ to a function of $\text{atan}$.
+
+2. For lifting surfaces, we can always just compute doublet\_ic\_p\_name first, and use declare\_variable in SourcePotential class to get the part. For non-lifting surfaces, we need to compute the doublet part first and then compute the whole source-induced potential. Note that even if there's no doublet element on the panel for non-lifting surfaces, these are just coefficients that happen to be the same.
+
+
+\end{document}
